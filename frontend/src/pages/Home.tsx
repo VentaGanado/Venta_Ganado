@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { Navbar } from '../components/layout/Navbar'; // ← 
 
 export const Home: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+      <Navbar /> 
+      
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
@@ -34,10 +37,10 @@ export const Home: React.FC = () => {
             </div>
           ) : (
             <Link
-              to="/marketplace"
+              to="/bovinos"
               className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors inline-block"
             >
-              Ir al Marketplace
+              Ver Mis Bovinos
             </Link>
           )}
         </div>
