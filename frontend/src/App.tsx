@@ -5,28 +5,29 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { MisBovinos } from './pages/bovinos/MisBovinos';
+import { DetalleBovino } from './pages/bovinos/DetalleBovino';
 
-// Placeholder para páginas futuras
-const Marketplace = () => <div className="p-8">Marketplace (próximamente)</div>;
-const MiPerfil = () => <div className="p-8">Mi Perfil (próximamente)</div>;
+const Marketplace = () => (
+  <div className="p-8">
+    <h1 className="text-2xl font-bold">Marketplace (próximamente)</h1>
+  </div>
+);
 
 function App() {
   const { initAuth } = useAuthStore();
 
   useEffect(() => {
-    // Inicializar autenticación desde localStorage al cargar la app
     initAuth();
   }, [initAuth]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rutas públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Rutas protegidas */}
         <Route
           path="/marketplace"
           element={
@@ -35,16 +36,25 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
-          path="/perfil"
+          path="/bovinos"
           element={
             <ProtectedRoute>
-              <MiPerfil />
+              <MisBovinos />
             </ProtectedRoute>
           }
         />
 
-        {/* Ruta 404 */}
+        <Route
+          path="/bovinos/:id"
+          element={
+            <ProtectedRoute>
+              <DetalleBovino />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
