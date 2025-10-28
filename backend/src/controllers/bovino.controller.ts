@@ -39,7 +39,6 @@ export class BovinoController {
       const propietarioId = req.usuario!.id;
       const datos: CrearBovinoDTO = req.body;
 
-      // Validaciones básicas
       if (!datos.raza || !datos.sexo) {
         return sendError(res, 400, "Raza y sexo son campos requeridos");
       }

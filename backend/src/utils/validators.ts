@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// Esquema de registro
 export const registerSchema = z.object({
   nombre: z.string().min(2, 'Nombre debe tener al menos 2 caracteres').max(100),
   apellidos: z.string().min(2, 'Apellidos debe tener al menos 2 caracteres').max(100),
@@ -13,13 +12,11 @@ export const registerSchema = z.object({
   departamento: z.string().default('Boyacá')
 });
 
-// Esquema de login
 export const loginSchema = z.object({
   email: z.string().email('Email inválido'),
   password: z.string().min(1, 'Contraseña requerida')
 });
 
-// Esquema de refresh token
 export const refreshTokenSchema = z.object({
   refreshToken: z.string().min(1, 'Refresh token requerido')
 });

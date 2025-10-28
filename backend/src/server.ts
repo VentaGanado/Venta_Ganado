@@ -9,7 +9,6 @@ const server = app.listen(PORT, () => {
   logger.info(`🔗 URL: http://localhost:${PORT}`);
 });
 
-// Manejo de errores del servidor
 server.on("error", (error: any) => {
   if (error.code === "EADDRINUSE") {
     logger.error(`Puerto ${PORT} ya está en uso`);
@@ -19,7 +18,6 @@ server.on("error", (error: any) => {
   process.exit(1);
 });
 
-// Cierre graceful
 process.on("SIGTERM", () => {
   logger.info("SIGTERM recibido, cerrando servidor...");
   server.close(() => {

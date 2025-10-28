@@ -8,7 +8,6 @@ import type {
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class MarketplaceService {
-  // Obtener publicaciones con filtros y paginación
   static async obtenerPublicaciones(filtros: FiltrosPublicacion) {
     const {
       raza,
@@ -58,7 +57,6 @@ export class MarketplaceService {
 
     const params: any[] = [];
 
-    // Filtros
     if (raza) {
       query += " AND b.raza = ?";
       params.push(raza);
@@ -124,7 +122,6 @@ export class MarketplaceService {
       params.push(searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
-    // Contar total antes de paginar
     const countQuery = query.replace(
       /SELECT[\s\S]*?FROM/i, 
       "SELECT COUNT(DISTINCT p.id) as total FROM"
@@ -133,24 +130,21 @@ export class MarketplaceService {
     const [countResult] = await pool.query<RowDataPacket[]>(countQuery, params);
     const total = countResult && countResult[0] ? countResult[0].total : 0;
 
-    // Ordenamiento
     const camposOrdenamiento: Record<string, string> = {
       precio: "p.precio",
       fecha_creacion: "p.fecha_creacion",
-      relevancia: "p.fecha_creacion", // Por ahora, ordenar por fecha
+      relevancia: "p.fecha_creacion", 
     };
 
     const campoOrden = camposOrdenamiento[ordenarPor] || "p.fecha_creacion";
     query += ` ORDER BY ${campoOrden} ${direccion.toUpperCase()}`;
 
-    // Paginación
     const offset = (pagina - 1) * porPagina;
     query += " LIMIT ? OFFSET ?";
     params.push(porPagina, offset);
 
     const [rows] = await pool.query<RowDataPacket[]>(query, params);
 
-    // Formatear resultados
     const publicaciones = rows.map((row) => ({
       id: row.id,
       vendedor_id: row.vendedor_id,
@@ -196,7 +190,6 @@ export class MarketplaceService {
     };
   }
 
-  // Obtener una publicación específica
   static async obtenerPublicacion(id: number) {
     const query = `
       SELECT 
@@ -267,9 +260,7 @@ export class MarketplaceService {
     };
   }
 
-  // Crear publicación
   static async crearPublicacion(vendedorId: number, datos: CrearPublicacionDTO) {
-    // Verificar que el bovino existe y pertenece al vendedor
     const [bovinos] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM bovinos WHERE id = ? AND propietario_id = ?",
       [datos.bovino_id, vendedorId]
@@ -279,7 +270,6 @@ export class MarketplaceService {
       throw new Error("El bovino no existe o no te pertenece");
     }
 
-    // Verificar que el bovino no está ya publicado
     const [publicacionesExistentes] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM publicaciones WHERE bovino_id = ? AND activo = 1",
       [datos.bovino_id]
@@ -305,13 +295,11 @@ export class MarketplaceService {
     return this.obtenerPublicacion(result.insertId);
   }
 
-  // Actualizar publicación
   static async actualizarPublicacion(
     id: number,
     vendedorId: number,
     datos: ActualizarPublicacionDTO
   ) {
-    // Verificar que la publicación existe y pertenece al vendedor
     const [publicaciones] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM publicaciones WHERE id = ? AND vendedor_id = ?",
       [id, vendedorId]
@@ -356,7 +344,6 @@ export class MarketplaceService {
     return this.obtenerPublicacion(id);
   }
 
-  // Toggle publicación (activar/desactivar)
   static async togglePublicacion(id: number, vendedorId: number) {
     const [publicaciones] = await pool.query<RowDataPacket[]>(
       "SELECT activo FROM publicaciones WHERE id = ? AND vendedor_id = ?",
@@ -374,7 +361,6 @@ export class MarketplaceService {
     return this.obtenerPublicacion(id);
   }
 
-  // Eliminar publicación
   static async eliminarPublicacion(id: number, vendedorId: number) {
     const [publicaciones] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM publicaciones WHERE id = ? AND vendedor_id = ?",
@@ -388,7 +374,6 @@ export class MarketplaceService {
     await pool.query("DELETE FROM publicaciones WHERE id = ?", [id]);
   }
 
-  // Obtener mis publicaciones
   static async obtenerMisPublicaciones(vendedorId: number) {
     const query = `
       SELECT 

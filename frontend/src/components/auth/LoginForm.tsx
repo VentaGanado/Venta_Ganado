@@ -24,7 +24,6 @@ export const LoginForm: React.FC = () => {
     try {
       await login(formData);
     } catch (err) {
-      // Error manejado en el hook
     }
   };
 

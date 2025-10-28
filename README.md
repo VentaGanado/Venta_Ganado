@@ -234,9 +234,9 @@ VITE_API_URL=http://localhost:3000/api
 
 ## ▶️ Ejecución del Proyecto
 
-### Opción 1: Modo Desarrollo (Recomendado)
+### Modo Desarrollo (Recomendado)
 
-Necesitas **dos terminales** abiertas:
+Necesitas **dos terminales** abiertas simultáneamente:
 
 #### Terminal 1 - Backend
 ```powershell
@@ -244,48 +244,50 @@ cd backend
 npm run dev
 ```
 
-Verás algo como:
-```
-🚀 Servidor corriendo en puerto 3000
-✅ Conexión a MySQL establecida
-📍 Entorno: development
-🔗 URL: http://localhost:3000
-```
+Este comando inicia el servidor Node.js con recarga automática (hot-reload). Verás un mensaje confirmando la conexión a MySQL y el puerto donde está corriendo (por defecto 3000).
 
-#### Terminal 2 - Frontend
+#### Terminal 2 - Frontend  
 ```powershell
 cd frontend
-npm run dev
+npm start
 ```
 
-Verás algo como:
-```
-  VITE v7.1.7  ready in 500 ms
+Este comando inicia el servidor de desarrollo de Vite y **abre automáticamente el navegador** en http://localhost:5173. Si prefieres abrir el navegador manualmente, usa `npm run dev` en su lugar.
 
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
-```
+> 💡 **Nota**: Si el puerto 5173 está ocupado, Vite cambiará automáticamente al siguiente disponible (5174, 5175, etc.).
 
-### Opción 2: Modo Producción
+---
+---
+
+### Modo Producción
+
+Para compilar y ejecutar la versión optimizada de producción:
 
 #### Backend
 ```powershell
 cd backend
-npm run build
-npm start
+npm run build    # Compila TypeScript a JavaScript
+npm start        # Inicia el servidor en modo producción
 ```
+
+El servidor de producción usa los archivos compilados en la carpeta `dist/`.
 
 #### Frontend
 ```powershell
 cd frontend
-npm run build
-npm run preview
+npm run build    # Compila y optimiza para producción
+npm run preview  # Previsualiza el build localmente
+npm run start    # Inicia el front en modo producción
 ```
 
-### 3. Acceder a la Aplicación
+El build de producción genera archivos optimizados en la carpeta `dist/`.
 
-Abre tu navegador en:
-- **Frontend**: http://localhost:5173
+---
+
+### Acceso a la Aplicación
+
+Una vez ejecutados los comandos, accede a:
+- **Frontend**: http://localhost:5173 (modo desarrollo) o el puerto mostrado en la terminal
 - **Backend API**: http://localhost:3000
 
 ---
@@ -478,6 +480,32 @@ DELETE /api/publicaciones/:id    # Eliminar publicación
 ---
 
 ## 🔧 Solución de Problemas
+
+### Error: "TS6133: 'X' is declared but its value is never read"
+
+**Causa:**
+- TypeScript detecta variables o funciones declaradas que no se están usando en el código.
+- El proyecto tiene la configuración `noUnusedLocals: true` en `tsconfig.app.json`.
+
+**Solución:**
+```powershell
+# Opción 1: Comentar la función no usada (recomendado para funcionalidad futura)
+# En el archivo del error, comenta la función con // TODO
+
+# Opción 2: Eliminar la función si no se necesita
+
+# Opción 3: Desactivar temporalmente la verificación (no recomendado)
+# En tsconfig.app.json, cambiar "noUnusedLocals": false
+```
+
+**Ejemplo de corrección en `DetalleBovino.tsx`:**
+```typescript
+// TODO: Implementar formulario para agregar registros reproductivos
+// const handleAddReproductivo = async (data: Partial<RegistroReproductivo>) => {
+//   await bovinoApi.addReproductivo(parseInt(id!), data);
+//   await fetchData();
+// };
+```
 
 ### Error: "Cannot connect to MySQL"
 

@@ -1,11 +1,7 @@
--- Script para actualizar la tabla bovinos con las columnas necesarias
--- Ejecutar desde PowerShell con: Get-Content .\database\update_bovinos_table.sql | mysql -u root -p
+
 
 USE ganado_bovino;
 
--- Verificar y agregar columnas faltantes
-
--- Agregar columna raza si no existe
 SET @col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_SCHEMA = 'ganado_bovino' 
     AND TABLE_NAME = 'bovinos' 
@@ -19,7 +15,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Agregar columna ubicacion_municipio si no existe
 SET @col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_SCHEMA = 'ganado_bovino' 
     AND TABLE_NAME = 'bovinos' 
@@ -33,7 +28,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Agregar columna ubicacion_departamento si no existe
 SET @col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_SCHEMA = 'ganado_bovino' 
     AND TABLE_NAME = 'bovinos' 
@@ -47,7 +41,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Agregar columna estado_sanitario si no existe
 SET @col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_SCHEMA = 'ganado_bovino' 
     AND TABLE_NAME = 'bovinos' 
@@ -61,7 +54,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Agregar columna foto_principal si no existe
 SET @col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_SCHEMA = 'ganado_bovino' 
     AND TABLE_NAME = 'bovinos' 
@@ -75,8 +67,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Verificar estructura final
 DESCRIBE bovinos;
 
--- Mostrar mensaje de éxito
 SELECT '✅ Tabla bovinos actualizada correctamente' as resultado;

@@ -55,7 +55,6 @@ export class MarketplaceController {
       const vendedorId = req.usuario!.id;
       const datos: CrearPublicacionDTO = req.body;
 
-      // Validaciones básicas
       if (!datos.bovino_id || !datos.titulo || !datos.descripcion || !datos.precio) {
         return sendError(res, 400, "Faltan campos requeridos");
       }

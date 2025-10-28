@@ -12,10 +12,8 @@ export const AuthController = {
   // POST /api/auth/register
   register: async (req: Request, res: Response) => {
     try {
-      // Validar datos
       const validatedData = registerSchema.parse(req.body);
 
-      // Registrar usuario
       const result = await AuthService.register(validatedData);
 
       logger.info("Usuario registrado", {
@@ -42,10 +40,8 @@ export const AuthController = {
   // POST /api/auth/login
   login: async (req: Request, res: Response) => {
     try {
-      // Validar datos
       const validatedData = loginSchema.parse(req.body);
 
-      // Login
       const result = await AuthService.login(validatedData);
 
       logger.info("Usuario inició sesión", {
@@ -75,10 +71,8 @@ export const AuthController = {
   // POST /api/auth/refresh
   refresh: async (req: Request, res: Response) => {
     try {
-      // Validar datos
       const { refreshToken } = refreshTokenSchema.parse(req.body);
 
-      // Refresh token
       const result = await AuthService.refresh(refreshToken);
 
       logger.info("Token renovado");
@@ -98,12 +92,10 @@ export const AuthController = {
   // POST /api/auth/logout
   logout: async (req: Request, res: Response) => {
     try {
-      // Usuario viene del middleware de autenticación
       if (!req.user) {
         return sendError(res, 401, "No autorizado");
       }
 
-      // Logout
       await AuthService.logout(req.user.id);
 
       logger.info("Usuario cerró sesión", { userId: req.user.id });
@@ -122,7 +114,6 @@ export const AuthController = {
         return sendError(res, 401, "No autorizado");
       }
 
-      // Obtener datos completos del usuario
       const user = await UsuarioModel.findById(req.user.id);
 
       if (!user) {
@@ -137,5 +128,4 @@ export const AuthController = {
   },
 };
 
-// Importar UsuarioModel para el método 'me'
 import { UsuarioModel } from "../models/usuario.model";

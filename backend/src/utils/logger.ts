@@ -2,7 +2,6 @@ import winston from 'winston';
 import path from 'path';
 import fs from 'fs';
 
-// Crear directorio de logs si no existe
 if (!fs.existsSync('logs')) {
   fs.mkdirSync('logs');
 }
@@ -22,7 +21,6 @@ const logger = winston.createLogger({
   ]
 });
 
-// En desarrollo, también mostrar en consola
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
