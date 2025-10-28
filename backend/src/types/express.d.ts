@@ -6,6 +6,11 @@ declare global {
         email: string;
         nombre: string;
       };
+      usuario?: {
+        id: number;
+        email: string;
+        nombre: string;
+      };
     }
   }
 }

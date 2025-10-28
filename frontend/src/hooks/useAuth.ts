@@ -19,7 +19,8 @@ export const useAuth = () => {
       const result = await authApi.register(data);
       setAuth(result.user, result.accessToken, result.refreshToken);
       
-      navigate('/marketplace');
+      // Redirigir a la página principal después del registro
+      navigate('/');
       return result;
     } catch (err: any) {
       const message = err.response?.data?.error || 'Error al registrarse';
@@ -38,7 +39,8 @@ export const useAuth = () => {
       const result = await authApi.login(data);
       setAuth(result.user, result.accessToken, result.refreshToken);
       
-      navigate('/marketplace');
+      // Redirigir a la página principal después del login
+      navigate('/');
       return result;
     } catch (err: any) {
       const message = err.response?.data?.error || 'Error al iniciar sesión';

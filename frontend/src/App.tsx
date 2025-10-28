@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -7,12 +7,9 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { MisBovinos } from './pages/bovinos/MisBovinos';
 import { DetalleBovino } from './pages/bovinos/DetalleBovino';
-
-const Marketplace = () => (
-  <div className="p-8">
-    <h1 className="text-2xl font-bold">Marketplace (próximamente)</h1>
-  </div>
-);
+import { Marketplace } from './pages/marketplace/Marketplace';
+import { DetallePublicacion } from './pages/marketplace/DetallePublicacion';
+import { MisPublicaciones } from './pages/marketplace/MisPublicaciones';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -33,6 +30,24 @@ function App() {
           element={
             <ProtectedRoute>
               <Marketplace />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/marketplace/:id"
+          element={
+            <ProtectedRoute>
+              <DetallePublicacion />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/mis-publicaciones"
+          element={
+            <ProtectedRoute>
+              <MisPublicaciones />
             </ProtectedRoute>
           }
         />

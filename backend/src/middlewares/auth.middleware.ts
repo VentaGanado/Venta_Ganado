@@ -20,6 +20,12 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
       nombre: decoded.nombre
     };
     
+    req.usuario = {
+      id: decoded.id,
+      email: decoded.email,
+      nombre: decoded.nombre
+    };
+    
     next();
   } catch (error: any) {
     if (error.name === 'TokenExpiredError') {

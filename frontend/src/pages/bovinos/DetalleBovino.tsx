@@ -26,15 +26,29 @@ export const DetalleBovino: React.FC = () => {
     try {
       setLoading(true);
       const data = await bovinoApi.getById(parseInt(id!));
+      console.log('Bovino cargado:', data);
       setBovino(data);
       
-      const sanitario = await bovinoApi.getSanitario(parseInt(id!));
-      setHistorialSanitario(sanitario);
+      // Intentar cargar historial sanitario (puede no estar implementado)
+      try {
+        const sanitario = await bovinoApi.getSanitario(parseInt(id!));
+        setHistorialSanitario(sanitario);
+      } catch (err) {
+        console.log('Historial sanitario no disponible');
+        setHistorialSanitario([]);
+      }
       
-      const reproductivo = await bovinoApi.getReproductivo(parseInt(id!));
-      setHistorialReproductivo(reproductivo);
+      // Intentar cargar historial reproductivo (puede no estar implementado)
+      try {
+        const reproductivo = await bovinoApi.getReproductivo(parseInt(id!));
+        setHistorialReproductivo(reproductivo);
+      } catch (err) {
+        console.log('Historial reproductivo no disponible');
+        setHistorialReproductivo([]);
+      }
     } catch (error) {
       console.error('Error al cargar bovino:', error);
+      setBovino(null);
     } finally {
       setLoading(false);
     }
@@ -94,7 +108,10 @@ export const DetalleBovino: React.FC = () => {
     );
   }
 
-  const calcularEdad = (fechaNacimiento: string) => {
+  const calcularEdad = (fechaNacimiento?: string) => {
+    if (!fechaNacimiento) {
+      return { años: 0, meses: 0, total: 0 };
+    }
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
     const meses = (hoy.getFullYear() - nacimiento.getFullYear()) * 12 + (hoy.getMonth() - nacimiento.getMonth());
@@ -103,7 +120,11 @@ export const DetalleBovino: React.FC = () => {
     return { años, meses: mesesRestantes, total: meses };
   };
 
-  const edad = calcularEdad(bovino.fecha_nacimiento);
+  const edad = bovino.fecha_nacimiento 
+    ? calcularEdad(bovino.fecha_nacimiento) 
+    : bovino.edad 
+      ? { años: bovino.edad, meses: 0, total: bovino.edad * 12 }
+      : { años: 0, meses: 0, total: 0 };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
@@ -171,8 +192,15 @@ export const DetalleBovino: React.FC = () => {
               <div className="md:w-2/3">
                 <div className="flex justify-between items-start mb-4">
                   <div>
+                    {bovino.nombre && (
+                      <p className="text-lg text-green-600 font-semibold mb-1">
+                        {bovino.nombre}
+                      </p>
+                    )}
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">{bovino.raza}</h1>
-                    <p className="text-gray-600">{bovino.sexo} • {edad.años}a {edad.meses}m</p>
+                    <p className="text-gray-600">
+                      {bovino.sexo === 'M' ? 'Macho' : 'Hembra'} • {edad.años > 0 ? `${edad.años}a ${edad.meses}m` : bovino.edad ? `${bovino.edad} años` : 'Edad no disponible'}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     {bovino.codigo_interno && (
@@ -180,14 +208,16 @@ export const DetalleBovino: React.FC = () => {
                         {bovino.codigo_interno}
                       </span>
                     )}
-                    <span className={`px-4 py-2 rounded-full font-medium ${
-                      bovino.estado === 'Disponible' ? 'bg-green-100 text-green-800' :
-                      bovino.estado === 'En negociación' ? 'bg-yellow-100 text-yellow-800' :
-                      bovino.estado === 'Vendido' ? 'bg-gray-100 text-gray-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {bovino.estado}
-                    </span>
+                    {bovino.estado && (
+                      <span className={`px-4 py-2 rounded-full font-medium ${
+                        bovino.estado === 'Disponible' ? 'bg-green-100 text-green-800' :
+                        bovino.estado === 'En negociación' ? 'bg-yellow-100 text-yellow-800' :
+                        bovino.estado === 'Vendido' ? 'bg-gray-100 text-gray-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {bovino.estado}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -195,7 +225,7 @@ export const DetalleBovino: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                   <div className="bg-green-50 p-4 rounded-lg">
                     <p className="text-sm text-green-600 mb-1">Peso Actual</p>
-                    <p className="text-2xl font-bold text-green-700">{bovino.peso_actual} kg</p>
+                    <p className="text-2xl font-bold text-green-700">{bovino.peso || bovino.peso_actual || 'N/A'} kg</p>
                   </div>
 
                   {bovino.valor_estimado && (
@@ -209,28 +239,36 @@ export const DetalleBovino: React.FC = () => {
 
                   <div className="bg-green-50 p-4 rounded-lg">
                     <p className="text-sm text-green-600 mb-1">Ubicación</p>
-                    <p className="text-lg font-bold text-green-700">{bovino.ubicacion_municipio}</p>
-                    <p className="text-xs text-green-600">{bovino.ubicacion_departamento}</p>
+                    <p className="text-lg font-bold text-green-700">{bovino.ubicacion_municipio || 'N/A'}</p>
+                    {bovino.ubicacion_departamento && (
+                      <p className="text-xs text-green-600">{bovino.ubicacion_departamento}</p>
+                    )}
                   </div>
 
+                  {bovino.fecha_nacimiento && (
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <p className="text-sm text-green-600 mb-1">Fecha de Nacimiento</p>
+                      <p className="text-lg font-bold text-green-700">
+                        {new Date(bovino.fecha_nacimiento).toLocaleDateString('es-CO')}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-green-600 mb-1">Fecha de Nacimiento</p>
-                    <p className="text-lg font-bold text-green-700">
-                      {new Date(bovino.fecha_nacimiento).toLocaleDateString('es-CO')}
+                    <p className="text-sm text-green-600 mb-1">Edad</p>
+                    <p className="text-2xl font-bold text-green-700">
+                      {edad.años > 0 ? `${edad.años}a ${edad.meses}m` : bovino.edad ? `${bovino.edad} años` : 'N/A'}
                     </p>
                   </div>
 
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-green-600 mb-1">Edad en Meses</p>
-                    <p className="text-2xl font-bold text-green-700">{edad.total}</p>
-                  </div>
-
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-green-600 mb-1">Fecha Registro</p>
-                    <p className="text-sm font-bold text-green-700">
-                      {new Date(bovino.fecha_creacion).toLocaleDateString('es-CO')}
-                    </p>
-                  </div>
+                  {bovino.fecha_creacion && (
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <p className="text-sm text-green-600 mb-1">Fecha Registro</p>
+                      <p className="text-sm font-bold text-green-700">
+                        {new Date(bovino.fecha_creacion).toLocaleDateString('es-CO')}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Descripción */}

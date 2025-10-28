@@ -6,11 +6,12 @@ interface BovinoCardProps {
   bovino: Bovino;
   onEdit?: () => void;
   onDelete?: () => void;
+  onPublicar?: () => void;
 }
 
 const API_URL = import.meta.env.VITE_UPLOADS_URL || 'http://localhost:3000/uploads';
 
-export const BovinoCard: React.FC<BovinoCardProps> = ({ bovino, onEdit, onDelete }) => {
+export const BovinoCard: React.FC<BovinoCardProps> = ({ bovino, onEdit, onDelete, onPublicar }) => {
   const calcularEdad = (fechaNacimiento: string) => {
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
@@ -28,92 +29,115 @@ export const BovinoCard: React.FC<BovinoCardProps> = ({ bovino, onEdit, onDelete
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden border border-green-50">
+    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 transform hover:-translate-y-1">
       {/* Imagen */}
-      <div className="relative h-48 bg-gradient-to-br from-green-100 to-green-200">
+      <div className="relative h-52 bg-gradient-to-br from-green-100 to-green-200 overflow-hidden">
         {bovino.foto_principal ? (
           <img
             src={`${API_URL}/${bovino.foto_principal}`}
             alt={bovino.raza}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-6xl">🐄</div>
+          <div className="flex items-center justify-center h-full text-7xl opacity-60">🐄</div>
         )}
         
         {/* Badge de estado */}
-        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium ${estadoBadge[bovino.estado]}`}>
-          {bovino.estado}
-        </div>
+        {bovino.estado && (
+          <div className={`absolute top-3 right-3 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg ${estadoBadge[bovino.estado]}`}>
+            {bovino.estado}
+          </div>
+        )}
+
+        {/* Código interno badge */}
+        {bovino.codigo_interno && (
+          <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-gray-800 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            #{bovino.codigo_interno}
+          </div>
+        )}
       </div>
 
       {/* Contenido */}
-      <div className="p-5">
-        <div className="flex justify-between items-start mb-3">
-          <div>
-            <h3 className="text-xl font-bold text-gray-800 mb-1">{bovino.raza}</h3>
-            <p className="text-sm text-gray-500">
-              {bovino.sexo} • {calcularEdad(bovino.fecha_nacimiento)}
+      <div className="p-6">
+        <div className="mb-4">
+          {bovino.nombre && (
+            <p className="text-sm text-green-600 font-bold mb-1 flex items-center gap-1">
+              <span>🏷️</span> {bovino.nombre}
             </p>
-          </div>
-          {bovino.codigo_interno && (
-            <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
-              {bovino.codigo_interno}
-            </span>
           )}
+          <h3 className="text-2xl font-extrabold text-gray-800 mb-2">{bovino.raza}</h3>
+          <p className="text-sm text-gray-600 flex items-center gap-2">
+            <span className="font-semibold">{bovino.sexo === 'M' ? '♂️ Macho' : '♀️ Hembra'}</span>
+            <span className="text-gray-400">•</span>
+            <span>{bovino.fecha_nacimiento ? calcularEdad(bovino.fecha_nacimiento) : bovino.edad ? `${bovino.edad} años` : 'N/A'}</span>
+          </p>
         </div>
 
-        {/* Detalles */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl">⚖️</span>
-            <div>
-              <p className="text-xs text-gray-500">Peso</p>
-              <p className="font-semibold text-gray-800">{bovino.peso_actual} kg</p>
+        {/* Detalles en Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-5">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-2xl">⚖️</span>
+              <p className="text-xs text-blue-700 font-semibold">Peso</p>
             </div>
+            <p className="font-extrabold text-blue-900 text-lg">{bovino.peso || bovino.peso_actual || 'N/A'} kg</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl">📍</span>
-            <div>
-              <p className="text-xs text-gray-500">Ubicación</p>
-              <p className="font-semibold text-gray-800 truncate">{bovino.ubicacion_municipio}</p>
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded-xl border border-purple-200">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-2xl">📍</span>
+              <p className="text-xs text-purple-700 font-semibold">Ubicación</p>
             </div>
+            <p className="font-bold text-purple-900 text-sm truncate">{bovino.ubicacion_municipio}</p>
           </div>
         </div>
 
         {bovino.valor_estimado && (
-          <div className="mb-4 p-3 bg-green-50 rounded-lg">
-            <p className="text-xs text-green-600 mb-1">Valor estimado</p>
-            <p className="text-2xl font-bold text-green-700">
+          <div className="mb-5 p-4 bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-md">
+            <p className="text-xs text-green-100 mb-1 font-semibold">💰 Valor estimado</p>
+            <p className="text-3xl font-extrabold text-white">
               ${bovino.valor_estimado.toLocaleString('es-CO')}
             </p>
           </div>
         )}
 
         {/* Botones de acción */}
-        <div className="flex gap-2">
+        <div className="space-y-3">
           <Link
             to={`/bovinos/${bovino.id}`}
-            className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition text-center"
+            className="block w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-3 rounded-xl font-bold hover:from-green-700 hover:to-green-800 transition-all text-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           >
-            Ver Detalle
+            👁️ Ver Detalle
           </Link>
-          {onEdit && (
-            <button
-              onClick={onEdit}
-              className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition"
-            >
-              ✏️
-            </button>
-          )}
-          {onDelete && (
-            <button
-              onClick={onDelete}
-              className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition"
-            >
-              🗑️
-            </button>
-          )}
+          
+          <div className="flex gap-2">
+            {onPublicar && (
+              <button
+                onClick={onPublicar}
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 rounded-xl hover:from-purple-200 hover:to-purple-300 transition-all font-bold text-sm shadow-sm hover:shadow-md border border-purple-300"
+                title="Publicar en Marketplace"
+              >
+                🛒 Publicar
+              </button>
+            )}
+            {onEdit && (
+              <button
+                onClick={onEdit}
+                className="px-4 py-2.5 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-xl hover:from-blue-200 hover:to-blue-300 transition-all shadow-sm hover:shadow-md border border-blue-300"
+                title="Editar"
+              >
+                ✏️
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={onDelete}
+                className="px-4 py-2.5 bg-gradient-to-r from-red-100 to-red-200 text-red-700 rounded-xl hover:from-red-200 hover:to-red-300 transition-all shadow-sm hover:shadow-md border border-red-300"
+                title="Eliminar"
+              >
+                🗑️
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
