@@ -78,16 +78,25 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Crear Cuenta</h2>
-      
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
-      )}
+    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+      {/* Header decorativo */}
+      <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-center">
+        <div className="text-5xl mb-2">🌾</div>
+        <h2 className="text-3xl font-bold text-white mb-1">Únete a GanadoBoy</h2>
+        <p className="text-green-100">Crea tu cuenta y comienza a vender</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="p-8">
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg flex items-start">
+            <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
@@ -188,31 +197,44 @@ export const RegisterForm: React.FC = () => {
           />
         </div>
 
-        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded">
-          <p className="font-medium mb-1">Requisitos de contraseña:</p>
-          <ul className="list-disc list-inside space-y-1">
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+          <p className="font-semibold text-green-800 mb-2 flex items-center">
+            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            Requisitos de contraseña:
+          </p>
+          <ul className="list-disc list-inside space-y-1 text-sm text-green-700 ml-7">
             <li>Mínimo 8 caracteres</li>
             <li>Al menos una letra mayúscula</li>
             <li>Al menos un número</li>
           </ul>
         </div>
 
-        <Button
-          type="submit"
-          variant="primary"
-          loading={loading}
-          className="w-full"
-        >
-          Registrarse
-        </Button>
+        <div className="pt-2">
+          <Button
+            type="submit"
+            variant="primary"
+            loading={loading}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+          >
+            {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
+          </Button>
+        </div>
       </form>
 
-      <p className="mt-4 text-center text-sm text-gray-600">
-        ¿Ya tienes cuenta?{' '}
-        <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
-          Inicia sesión aquí
-        </Link>
-      </p>
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <p className="text-center text-sm text-gray-600">
+          ¿Ya tienes cuenta?{' '}
+          <Link 
+            to="/login" 
+            className="text-green-600 hover:text-green-700 font-semibold hover:underline transition-colors"
+          >
+            Inicia sesión aquí
+          </Link>
+        </p>
+      </div>
+      </div>
     </div>
   );
 };

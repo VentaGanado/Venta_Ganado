@@ -1,20 +1,28 @@
 export interface Bovino {
   id: number;
   propietario_id: number;
-  codigo_interno?: string;
+  nombre?: string;
   raza: string;
-  sexo: 'Macho' | 'Hembra';
-  fecha_nacimiento: string;
-  peso_actual: number;
-  valor_estimado?: number;
-  ubicacion_municipio: string;
-  ubicacion_departamento: string;
-  descripcion?: string;
-  estado: 'Disponible' | 'En negociación' | 'Vendido' | 'Retirado';
-  fecha_creacion: string;
-  fecha_actualizacion: string;
-  fotografias?: Fotografia[];
+  sexo: 'M' | 'F';
+  edad?: number;
+  peso?: number;
+  ubicacion_municipio?: string;
+  ubicacion_departamento?: string;
+  estado_sanitario?: string;
   foto_principal?: string;
+  registro_fecha?: string;
+  activo?: boolean;
+  descripcion?: string;
+  
+  // Campos legacy para compatibilidad
+  codigo_interno?: string;
+  fecha_nacimiento?: string;
+  peso_actual?: number;
+  valor_estimado?: number;
+  estado?: 'Disponible' | 'En negociación' | 'Vendido' | 'Retirado';
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
+  fotografias?: Fotografia[];
   historial_sanitario?: RegistroSanitario[];
   historial_reproductivo?: RegistroReproductivo[];
 }
