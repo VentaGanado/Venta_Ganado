@@ -3,7 +3,6 @@ import type { Bovino, CrearBovinoDTO, ActualizarBovinoDTO } from "../types/bovin
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export class BovinoService {
-  // Obtener todos los bovinos del propietario
   static async obtenerBovinos(propietarioId: number): Promise<Bovino[]> {
     const query = `
       SELECT * FROM bovinos 
@@ -15,7 +14,6 @@ export class BovinoService {
     return rows as Bovino[];
   }
 
-  // Obtener un bovino específico
   static async obtenerBovino(id: number, propietarioId: number): Promise<Bovino | null> {
     const query = `
       SELECT * FROM bovinos 
@@ -31,7 +29,6 @@ export class BovinoService {
     return rows[0] as Bovino;
   }
 
-  // Crear un bovino
   static async crearBovino(propietarioId: number, datos: CrearBovinoDTO): Promise<Bovino> {
     const query = `
       INSERT INTO bovinos (
@@ -62,13 +59,11 @@ export class BovinoService {
     return bovino;
   }
 
-  // Actualizar un bovino
   static async actualizarBovino(
     id: number,
     propietarioId: number,
     datos: ActualizarBovinoDTO
   ): Promise<Bovino> {
-    // Verificar que el bovino existe y pertenece al propietario
     const bovino = await this.obtenerBovino(id, propietarioId);
     if (!bovino) {
       throw new Error("Bovino no encontrado o no tienes permiso");
@@ -149,14 +144,12 @@ export class BovinoService {
     return bovinoActualizado;
   }
 
-  // Eliminar (desactivar) un bovino
   static async eliminarBovino(id: number, propietarioId: number): Promise<void> {
     const bovino = await this.obtenerBovino(id, propietarioId);
     if (!bovino) {
       throw new Error("Bovino no encontrado o no tienes permiso");
     }
 
-    // Verificar si tiene publicaciones activas
     const [publicaciones] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM publicaciones WHERE bovino_id = ? AND activo = 1",
       [id]

@@ -42,7 +42,6 @@ export const MisBovinos: React.FC = () => {
     const publicacion = await crearPublicacion(data);
     if (publicacion) {
       setPublicandoBovino(null);
-      // Mostrar mensaje de éxito
       const mensaje = document.createElement('div');
       mensaje.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in';
       mensaje.innerHTML = `

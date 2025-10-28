@@ -4,7 +4,6 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-// Todas las rutas requieren autenticación
 router.use(authMiddleware);
 
 router.get("/", BovinoController.listarBovinos);

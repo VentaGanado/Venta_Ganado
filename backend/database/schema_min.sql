@@ -69,10 +69,7 @@ CREATE TABLE IF NOT EXISTS transacciones (
 	FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Indices útiles
--- Crear índices (sin IF NOT EXISTS por compatibilidad con todas las versiones de MySQL)
 CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_bovinos_propietario ON bovinos(propietario_id);
 CREATE INDEX idx_publicaciones_vendedor ON publicaciones(vendedor_id);
 
--- Fin del esquema mínimo

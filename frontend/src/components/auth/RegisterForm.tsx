@@ -29,7 +29,6 @@ export const RegisterForm: React.FC = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Limpiar error del campo
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: '' });
     }
@@ -73,7 +72,6 @@ export const RegisterForm: React.FC = () => {
       const { confirmPassword, ...dataToSend } = formData;
       await register(dataToSend);
     } catch (err) {
-      // Error manejado en el hook
     }
   };
 

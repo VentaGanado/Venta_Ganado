@@ -3,7 +3,6 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { Usuario, UsuarioRegistro } from "../types/usuario.types";
 
 export const UsuarioModel = {
-  // Crear usuario
   create: async (
     usuario: UsuarioRegistro & { password_hash: string }
   ): Promise<number> => {
@@ -23,7 +22,6 @@ export const UsuarioModel = {
     return result.insertId;
   },
 
-  // Buscar por email
   findByEmail: async (email: string): Promise<any | null> => {
     const [rows] = await pool.query<RowDataPacket[]>(
       "SELECT * FROM usuarios WHERE email = ?",
@@ -32,7 +30,6 @@ export const UsuarioModel = {
     return rows.length > 0 ? rows[0] : null;
   },
 
-  // Buscar por ID
   findById: async (id: number): Promise<Usuario | null> => {
     const [rows] = await pool.query<RowDataPacket[]>(
       "SELECT id, nombre, apellidos, email, telefono, municipio, departamento, foto_perfil, fecha_registro, activo FROM usuarios WHERE id = ?",
@@ -41,7 +38,6 @@ export const UsuarioModel = {
     return rows.length > 0 ? (rows[0] as Usuario) : null;
   },
 
-  // Actualizar refresh token
   updateRefreshToken: async (
     userId: number,
     refreshToken: string | null
@@ -52,7 +48,6 @@ export const UsuarioModel = {
     ]);
   },
 
-  // Verificar refresh token
   verifyRefreshToken: async (
     userId: number,
     refreshToken: string
@@ -64,7 +59,6 @@ export const UsuarioModel = {
     return rows.length > 0;
   },
 
-  // Verificar si email existe
   emailExists: async (email: string): Promise<boolean> => {
     const [rows] = await pool.query<RowDataPacket[]>(
       "SELECT id FROM usuarios WHERE email = ?",

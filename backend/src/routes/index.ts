@@ -5,7 +5,6 @@ import bovinoRoutes from "./bovino.routes";
 
 const router = Router();
 
-// Montar rutas
 router.use("/auth", authRoutes);
 router.use("/marketplace", marketplaceRoutes);
 router.use("/bovinos", bovinoRoutes);

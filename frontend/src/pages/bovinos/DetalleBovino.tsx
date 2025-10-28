@@ -75,11 +75,6 @@ export const DetalleBovino: React.FC = () => {
     await fetchData();
   };
 
-  const handleAddReproductivo = async (data: Partial<RegistroReproductivo>) => {
-    await bovinoApi.addReproductivo(parseInt(id!), data);
-    await fetchData();
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
