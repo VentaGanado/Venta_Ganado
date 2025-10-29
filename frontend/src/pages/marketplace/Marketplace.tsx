@@ -42,15 +42,11 @@ export const Marketplace: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-10">
+  <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 via-green-600 to-green-800 bg-clip-text text-transparent flex items-center justify-center gap-4">
-            🛒 Marketplace
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Encuentra el bovino perfecto para tu finca entre cientos de opciones
-          </p>
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 text-gray-900">Marketplace</h1>
+          <p className="text-base text-gray-600 max-w-2xl mx-auto">Encuentra el bovino ideal para tu finca entre nuestras publicaciones.</p>
         </div>
 
         {/* Filtros */}

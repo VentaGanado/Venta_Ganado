@@ -40,3 +40,53 @@ export interface ActualizarBovinoDTO {
   descripcion?: string;
   activo?: boolean;
 }
+
+// Tipos para fotos
+export interface BovinoFoto {
+  id: number;
+  bovino_id: number;
+  ruta_foto: string;
+  es_principal: boolean;
+  fecha_subida: Date;
+}
+
+// Tipos para historial sanitario
+export interface RegistroSanitario {
+  id: number;
+  bovino_id: number;
+  fecha: Date;
+  tipo_registro: string;
+  descripcion?: string;
+  veterinario?: string;
+  costo?: number;
+  fecha_registro: Date;
+}
+
+export interface CrearRegistroSanitarioDTO {
+  fecha: Date;
+  tipo_registro: string;
+  descripcion?: string;
+  veterinario?: string;
+  costo?: number;
+}
+
+// Tipos para historial reproductivo
+export interface RegistroReproductivo {
+  id: number;
+  bovino_id: number;
+  fecha: Date;
+  tipo_evento: string;
+  descripcion?: string;
+  resultado?: string;
+  observaciones?: string;
+  fecha_registro: Date;
+}
+
+export interface CrearRegistroReproductivoDTO {
+  fecha: Date;
+  tipo_evento: string;
+  descripcion?: string;
+  resultado?: string;
+  observaciones?: string;
+}
+

@@ -33,7 +33,9 @@ export const DetallePublicacion: React.FC = () => {
 
   const getFotoUrl = () => {
     if (publicacion?.bovino?.foto_principal) {
-      return `${import.meta.env.VITE_UPLOADS_URL}/${publicacion.bovino.foto_principal}`;
+      const raw = publicacion.bovino.foto_principal as string;
+      const normalized = raw.startsWith('/uploads/') ? raw.replace(/^\/uploads\//, '') : raw.replace(/^\/+/, '');
+      return `${import.meta.env.VITE_UPLOADS_URL}/${normalized}`;
     }
     return 'https://via.placeholder.com/600x400?text=Sin+Foto';
   };

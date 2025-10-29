@@ -1,131 +1,187 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { Navbar } from '../components/layout/Navbar'; // ← 
+import { Navbar } from '../components/layout/Navbar';
 
 export const Home: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
-      <Navbar /> 
+      <Navbar />
       
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16 max-w-4xl mx-auto">
-          <div className="text-8xl mb-6 animate-bounce-slow">🐄</div>
-          <h1 className="text-6xl font-extrabold mb-6 bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent">
+      <section className="w-full px-6 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-12">
+        <div className="text-center max-w-7xl mx-auto">
+          {/* Emoji Icon */}
+          <div className="mb-3">
+            <span className="text-5xl md:text-6xl inline-block">🐄</span>
+          </div>
+          
+          {/* Title */}
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-3 bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent leading-tight">
             GanadoBoy
           </h1>
-          <p className="text-2xl text-gray-700 mb-4 font-medium">
+          
+          {/* Subtitle */}
+          <p className="text-base md:text-xl lg:text-2xl text-gray-700 mb-2 font-semibold px-4">
             La plataforma digital para la comercialización de ganado bovino en Boyacá
           </p>
-          <p className="text-lg text-gray-600 mb-10">
+          
+          {/* Description */}
+          <p className="text-sm md:text-base text-gray-600 mb-6 max-w-3xl mx-auto">
             Conectamos ganaderos y compradores de forma segura y transparente
           </p>
           
-          {!isAuthenticated ? (
-            <div className="flex gap-6 justify-center flex-wrap">
-              <Link
-                to="/register"
-                className="px-10 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl font-bold text-lg hover:from-green-700 hover:to-green-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 duration-200"
-              >
-                🚀 Comenzar ahora
-              </Link>
-              <Link
-                to="/login"
-                className="px-10 py-4 border-3 border-green-600 text-green-700 rounded-xl font-bold text-lg hover:bg-green-50 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200"
-              >
-                🔑 Iniciar sesión
-              </Link>
-            </div>
-          ) : (
-            <div className="flex gap-6 justify-center flex-wrap">
-              <Link
-                to="/bovinos"
-                className="px-10 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl font-bold text-lg hover:from-green-700 hover:to-green-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 duration-200 inline-flex items-center gap-2"
-              >
-                🐮 Ver Mis Bovinos
-              </Link>
-              <Link
-                to="/marketplace"
-                className="px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 duration-200 inline-flex items-center gap-2"
-              >
-                🛒 Explorar Marketplace
-              </Link>
-            </div>
-          )}
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto">
+            {!isAuthenticated ? (
+              <>
+                <Link
+                  to="/register"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold text-sm hover:from-green-700 hover:to-green-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 text-center"
+                >
+                  🚀 Comenzar ahora
+                </Link>
+                <Link
+                  to="/login"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-white border-2 border-green-600 text-green-700 rounded-lg font-semibold text-sm hover:bg-green-50 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 text-center"
+                >
+                  🔑 Iniciar sesión
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/bovinos"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold text-sm hover:from-green-700 hover:to-green-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 text-center"
+                >
+                  🐮 Ver Mis Bovinos
+                </Link>
+                <Link
+                  to="/marketplace"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold text-sm hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200 text-center"
+                >
+                  🛒 Explorar Marketplace
+                </Link>
+              </>
+            )}
+          </div>
         </div>
+      </section>
 
-        {/* Features Section */}
-        <div className="mt-20">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+      {/* Features Section */}
+      <section className="w-full px-6 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-10">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Title */}
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-center mb-6 text-gray-800">
             ¿Por qué elegir GanadoBoy?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 duration-300 border-t-4 border-green-500">
-              <div className="text-6xl mb-6 text-center">📋</div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">Trazabilidad Completa</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Registra el historial sanitario, reproductivo y genealógico de cada animal. Mantén toda la información organizada en un solo lugar.
-              </p>
+          
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
+            {/* Feature 1 */}
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-t-4 border-green-500">
+              <div className="p-5">
+                <div className="text-4xl mb-2 text-center">📋</div>
+                <h3 className="text-base font-bold mb-2 text-gray-800 text-center">
+                  Trazabilidad Completa
+                </h3>
+                <p className="text-xs text-gray-600 text-center leading-relaxed">
+                  Registra el historial sanitario, reproductivo y genealógico de cada animal. Mantén toda la información organizada en un solo lugar.
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 duration-300 border-t-4 border-blue-500">
-              <div className="text-6xl mb-6 text-center">🤝</div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">Negociación Directa</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Comunícate directamente con compradores sin intermediarios. Ahorra tiempo y costos en tus transacciones comerciales.
-              </p>
+            {/* Feature 2 */}
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-t-4 border-blue-500">
+              <div className="p-5">
+                <div className="text-4xl mb-2 text-center">🤝</div>
+                <h3 className="text-base font-bold mb-2 text-gray-800 text-center">
+                  Negociación Directa
+                </h3>
+                <p className="text-xs text-gray-600 text-center leading-relaxed">
+                  Comunícate directamente con compradores sin intermediarios. Ahorra tiempo y costos en tus transacciones comerciales.
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 duration-300 border-t-4 border-yellow-500">
-              <div className="text-6xl mb-6 text-center">⭐</div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">Sistema de Reputación</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Calificaciones y comentarios que generan confianza entre compradores y vendedores. Construye tu reputación en el mercado.
-              </p>
+            {/* Feature 3 */}
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-t-4 border-yellow-500">
+              <div className="p-5">
+                <div className="text-4xl mb-2 text-center">⭐</div>
+                <h3 className="text-base font-bold mb-2 text-gray-800 text-center">
+                  Sistema de Reputación
+                </h3>
+                <p className="text-xs text-gray-600 text-center leading-relaxed">
+                  Calificaciones y comentarios que generan confianza entre compradores y vendedores. Construye tu reputación en el mercado.
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Stats Section */}
-        <div className="mt-20 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl p-12 text-white shadow-2xl">
-          <h2 className="text-4xl font-bold text-center mb-12">Nuestra Comunidad</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-extrabold mb-2">500+</div>
-              <p className="text-xl text-green-100">Ganaderos Registrados</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-extrabold mb-2">2,000+</div>
-              <p className="text-xl text-green-100">Bovinos Registrados</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-extrabold mb-2">10+</div>
-              <p className="text-xl text-green-100">Municipios de Boyacá</p>
+      {/* Stats Section */}
+      <section className="w-full px-6 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-xl">
+            <div className="p-6 md:p-8">
+              {/* Section Title */}
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-center mb-5 text-white">
+                Nuestra Comunidad
+              </h2>
+              
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-4 md:gap-6">
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-1 text-white">500+</div>
+                  <p className="text-xs md:text-sm lg:text-base text-green-100 font-medium">Ganaderos Registrados</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-1 text-white">2,000+</div>
+                  <p className="text-xs md:text-sm lg:text-base text-green-100 font-medium">Bovinos Registrados</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-1 text-white">10+</div>
+                  <p className="text-xs md:text-sm lg:text-base text-green-100 font-medium">Municipios de Boyacá</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* CTA Final */}
-        {!isAuthenticated && (
-          <div className="mt-20 text-center bg-white rounded-3xl p-12 shadow-xl">
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">
-              ¿Listo para comenzar?
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Únete a la comunidad ganadera más grande de Boyacá
-            </p>
-            <Link
-              to="/register"
-              className="px-12 py-5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl font-bold text-xl hover:from-green-700 hover:to-green-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 duration-200 inline-block"
-            >
-              Crear cuenta gratuita
-            </Link>
+      {/* Final CTA Section */}
+      {!isAuthenticated && (
+        <section className="w-full px-6 lg:px-16 xl:px-24 2xl:px-32 py-8 md:py-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg">
+              <div className="p-6 md:p-8 text-center">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 text-gray-800">
+                  ¿Listo para comenzar?
+                </h2>
+                
+                <p className="text-sm md:text-base text-gray-600 mb-4 max-w-2xl mx-auto">
+                  Únete a la comunidad ganadera más grande de Boyacá
+                </p>
+                
+                <Link
+                  to="/register"
+                  className="inline-block px-8 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold text-sm md:text-base hover:from-green-700 hover:to-green-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200"
+                >
+                  Crear cuenta gratuita
+                </Link>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
+        </section>
+      )}
+
+      {/* Footer Spacer */}
+      <div className="h-8"></div>
     </div>
   );
 };
