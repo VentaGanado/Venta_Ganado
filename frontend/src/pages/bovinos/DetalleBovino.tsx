@@ -56,15 +56,33 @@ export const DetalleBovino: React.FC = () => {
 
   const handleUploadPhotos = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
+    // Verificar token antes de intentar subir
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      console.error('No se encontró token de acceso en localStorage');
+      alert('No estás autenticado. Por favor inicia sesión antes de subir fotos.');
+      return;
+    }
     
     try {
       setUploadingPhotos(true);
       const files = Array.from(e.target.files);
+      console.log('Subiendo fotos para bovino ID:', id);
+      console.log('Cantidad de archivos:', files.length);
+      console.log('Archivos:', files.map(f => f.name));
+      
       await bovinoApi.uploadFotos(parseInt(id!), files);
+      alert('Fotos subidas exitosamente');
       await fetchData();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al subir fotos:', error);
-      alert('Error al subir fotos');
+      console.error('Error completo:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: error.config?.url
+      });
+      alert(`Error al subir fotos: ${error.response?.data?.error || error.message}`);
     } finally {
       setUploadingPhotos(false);
     }
@@ -137,11 +155,20 @@ export const DetalleBovino: React.FC = () => {
               <div className="md:w-1/3">
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-gradient-to-br from-green-100 to-green-200">
                   {bovino.foto_principal ? (
-                    <img
-                      src={`${API_URL}/${bovino.foto_principal}`}
-                      alt={bovino.raza}
-                      className="w-full h-full object-cover"
-                    />
+                    (() => {
+                      // Normalizar la ruta en caso de que la DB guarde '/uploads/...' o '/...'
+                      const raw = bovino.foto_principal as string;
+                      const normalized = raw.startsWith('/uploads/')
+                        ? raw.replace(/^\/uploads\//, '')
+                        : raw.replace(/^\/+/, '');
+                      return (
+                        <img
+                          src={`${API_URL}/${normalized}`}
+                          alt={bovino.raza}
+                          className="w-full h-full object-cover"
+                        />
+                      );
+                    })()
                   ) : (
                     <div className="flex items-center justify-center h-full text-8xl">🐄</div>
                   )}
@@ -170,15 +197,19 @@ export const DetalleBovino: React.FC = () => {
                 {/* Galería de fotos */}
                 {bovino.fotografias && bovino.fotografias.length > 0 && (
                   <div className="mt-4 grid grid-cols-3 gap-2">
-                    {bovino.fotografias.map((foto) => (
+                    {bovino.fotografias.map((foto) => {
+                      const raw = foto.ruta_imagen as string;
+                      const normalized = raw.startsWith('/uploads/') ? raw.replace(/^\/uploads\//, '') : raw.replace(/^\/+/, '');
+                      return (
                       <div key={foto.id} className="aspect-square rounded-lg overflow-hidden border-2 border-green-200">
                         <img
-                          src={`${API_URL}/${foto.ruta_imagen}`}
+                          src={`${API_URL}/${normalized}`}
                           alt="Foto del bovino"
                           className="w-full h-full object-cover"
                         />
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>

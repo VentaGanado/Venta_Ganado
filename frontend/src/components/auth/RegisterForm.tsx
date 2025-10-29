@@ -76,12 +76,16 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
       {/* Header decorativo */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-center">
-        <div className="text-5xl mb-2">🌾</div>
-        <h2 className="text-3xl font-bold text-white mb-1">Únete a GanadoBoy</h2>
-        <p className="text-green-100">Crea tu cuenta y comienza a vender</p>
+      <div className="bg-gradient-to-r from-green-600 to-green-700 p-6">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white font-semibold">GB</div>
+          <div>
+            <h2 className="text-2xl font-semibold text-white">Únete a GanadoBoy</h2>
+            <p className="text-green-100 text-sm">Crea tu cuenta para empezar a vender</p>
+          </div>
+        </div>
       </div>
 
       <div className="p-8">

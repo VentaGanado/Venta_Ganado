@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+
+# Uploads (fotos y documentos de usuarios)
+# Ignorar todo el contenido de uploads en el control de versiones.
+# Las carpetas necesarias se crean en tiempo de ejecución en el backend.
+backend/uploads/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Typescript
+*.tsbuildinfo

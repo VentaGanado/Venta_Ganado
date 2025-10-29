@@ -116,11 +116,17 @@ export const MisPublicaciones: React.FC = () => {
                   {/* Imagen */}
                   <div className="w-full md:w-48 h-48 bg-gradient-to-br from-green-100 to-green-200 rounded-lg overflow-hidden flex-shrink-0">
                     {publicacion.bovino?.foto_principal ? (
-                      <img
-                        src={`${API_URL}/${publicacion.bovino.foto_principal}`}
-                        alt={publicacion.titulo}
-                        className="w-full h-full object-cover"
-                      />
+                      (() => {
+                        const raw = publicacion.bovino!.foto_principal as string;
+                        const normalized = raw.startsWith('/uploads/') ? raw.replace(/^\/uploads\//, '') : raw.replace(/^\/+/, '');
+                        return (
+                          <img
+                            src={`${API_URL}/${normalized}`}
+                            alt={publicacion.titulo}
+                            className="w-full h-full object-cover"
+                          />
+                        );
+                      })()
                     ) : (
                       <div className="flex items-center justify-center h-full text-6xl">🐄</div>
                     )}

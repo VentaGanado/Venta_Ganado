@@ -19,7 +19,9 @@ export const PublicacionCard: React.FC<PublicacionCardProps> = ({ publicacion })
 
   const getFotoUrl = () => {
     if (bovino?.foto_principal) {
-      return `${import.meta.env.VITE_UPLOADS_URL}/${bovino.foto_principal}`;
+      const raw = bovino.foto_principal as string;
+      const normalized = raw.startsWith('/uploads/') ? raw.replace(/^\/uploads\//, '') : raw.replace(/^\/+/, '');
+      return `${import.meta.env.VITE_UPLOADS_URL}/${normalized}`;
     }
     return 'https://via.placeholder.com/400x300?text=Sin+Foto';
   };
@@ -34,11 +36,11 @@ export const PublicacionCard: React.FC<PublicacionCardProps> = ({ publicacion })
       className="block bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 transform hover:-translate-y-2 group"
     >
       {/* Imagen */}
-      <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+      <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
         <img
           src={getFotoUrl()}
           alt={publicacion.titulo}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {!publicacion.activo && (
           <div className="absolute top-3 right-3 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
@@ -56,11 +58,11 @@ export const PublicacionCard: React.FC<PublicacionCardProps> = ({ publicacion })
       <div className="p-5">
         {/* Título y precio */}
         <div className="mb-4">
-          <h3 className="text-xl font-extrabold text-gray-800 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
             {publicacion.titulo}
           </h3>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
+            <span className="text-2xl font-extrabold text-green-700">
               {formatPrecio(publicacion.precio)}
             </span>
             <span className="text-sm text-gray-500">COP</span>

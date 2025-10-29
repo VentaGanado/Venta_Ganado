@@ -65,16 +65,12 @@ export const MisBovinos: React.FC = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 py-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-3 flex items-center gap-3">
-              🐮 Mis Bovinos
-            </h1>
-            <p className="text-lg text-gray-600">Gestiona tu inventario ganadero de forma profesional</p>
+            <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Mis Bovinos</h1>
+            <p className="text-sm text-gray-600">Gestiona tu inventario ganadero</p>
             {bovinos.length > 0 && (
-              <p className="text-sm text-gray-500 mt-1">
-                📊 Total de bovinos registrados: <span className="font-bold text-green-600">{bovinos.length}</span>
-              </p>
+              <p className="text-sm text-gray-500 mt-1">Total: <span className="font-bold text-green-600">{bovinos.length}</span></p>
             )}
           </div>
           

@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import { UsuarioModel } from '../models/usuario.model';
-import { 
-  generateAccessToken, 
-  generateRefreshToken, 
-  verifyRefreshToken 
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken
 } from '../config/jwt';
 import { UsuarioRegistro, UsuarioLogin, AuthResponse } from '../types/usuario.types';
+import HttpError from '../utils/http-error';
 
 const SALT_ROUNDS = 10;
 
@@ -13,7 +14,7 @@ export const AuthService = {
   register: async (data: UsuarioRegistro): Promise<AuthResponse> => {
     const emailExists = await UsuarioModel.emailExists(data.email);
     if (emailExists) {
-      throw new Error('El email ya está registrado');
+      throw new HttpError(400, 'El email ya está registrado');
     }
 
     const password_hash = await bcrypt.hash(data.password, SALT_ROUNDS);
@@ -25,7 +26,7 @@ export const AuthService = {
 
     const user = await UsuarioModel.findById(userId);
     if (!user) {
-      throw new Error('Error al crear usuario');
+      throw new HttpError(500, 'Error al crear usuario');
     }
 
     const payload = {
@@ -49,11 +50,11 @@ export const AuthService = {
   login: async (data: UsuarioLogin): Promise<AuthResponse> => {
     const userWithPassword = await UsuarioModel.findByEmail(data.email);
     if (!userWithPassword) {
-      throw new Error('Credenciales inválidas');
+      throw new HttpError(401, 'Credenciales inválidas');
     }
 
     if (!userWithPassword.activo) {
-      throw new Error('Usuario inactivo. Contacta al administrador');
+      throw new HttpError(401, 'Usuario inactivo. Contacta al administrador');
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -62,12 +63,12 @@ export const AuthService = {
     );
 
     if (!isPasswordValid) {
-      throw new Error('Credenciales inválidas');
+      throw new HttpError(401, 'Credenciales inválidas');
     }
 
     const user = await UsuarioModel.findById(userWithPassword.id);
     if (!user) {
-      throw new Error('Error al obtener datos del usuario');
+      throw new HttpError(500, 'Error al obtener datos del usuario');
     }
 
     const payload = {
@@ -94,12 +95,12 @@ export const AuthService = {
 
       const isValid = await UsuarioModel.verifyRefreshToken(decoded.id, token);
       if (!isValid) {
-        throw new Error('Refresh token inválido');
+        throw new HttpError(401, 'Refresh token inválido');
       }
 
       const user = await UsuarioModel.findById(decoded.id);
       if (!user || !user.activo) {
-        throw new Error('Usuario no encontrado o inactivo');
+        throw new HttpError(404, 'Usuario no encontrado o inactivo');
       }
 
       const payload = {
@@ -118,7 +119,7 @@ export const AuthService = {
         refreshToken: newRefreshToken
       };
     } catch (error) {
-      throw new Error('Refresh token inválido o expirado');
+      throw new HttpError(401, 'Refresh token inválido o expirado');
     }
   },
 

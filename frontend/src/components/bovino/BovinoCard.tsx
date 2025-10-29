@@ -33,11 +33,17 @@ export const BovinoCard: React.FC<BovinoCardProps> = ({ bovino, onEdit, onDelete
       {/* Imagen */}
       <div className="relative h-52 bg-gradient-to-br from-green-100 to-green-200 overflow-hidden">
         {bovino.foto_principal ? (
-          <img
-            src={`${API_URL}/${bovino.foto_principal}`}
-            alt={bovino.raza}
-            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-          />
+          (() => {
+            const raw = bovino.foto_principal as string;
+            const normalized = raw.startsWith('/uploads/') ? raw.replace(/^\/uploads\//, '') : raw.replace(/^\/+/, '');
+            return (
+              <img
+                src={`${API_URL}/${normalized}`}
+                alt={bovino.raza}
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+              />
+            );
+          })()
         ) : (
           <div className="flex items-center justify-center h-full text-7xl opacity-60">🐄</div>
         )}
@@ -61,14 +67,12 @@ export const BovinoCard: React.FC<BovinoCardProps> = ({ bovino, onEdit, onDelete
       <div className="p-6">
         <div className="mb-4">
           {bovino.nombre && (
-            <p className="text-sm text-green-600 font-bold mb-1 flex items-center gap-1">
-              <span>🏷️</span> {bovino.nombre}
-            </p>
+            <p className="text-sm text-green-600 font-bold mb-1">{bovino.nombre}</p>
           )}
           <h3 className="text-2xl font-extrabold text-gray-800 mb-2">{bovino.raza}</h3>
-          <p className="text-sm text-gray-600 flex items-center gap-2">
-            <span className="font-semibold">{bovino.sexo === 'M' ? '♂️ Macho' : '♀️ Hembra'}</span>
-            <span className="text-gray-400">•</span>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold">{bovino.sexo === 'M' ? 'Macho' : 'Hembra'}</span>
+            <span className="mx-2 text-gray-400">•</span>
             <span>{bovino.fecha_nacimiento ? calcularEdad(bovino.fecha_nacimiento) : bovino.edad ? `${bovino.edad} años` : 'N/A'}</span>
           </p>
         </div>

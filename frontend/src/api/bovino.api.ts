@@ -39,9 +39,8 @@ export const bovinoApi = {
     const formData = new FormData();
     files.forEach((file) => formData.append("fotos", file));
 
-    await axiosInstance.post(`/bovinos/${id}/fotos`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    // No establecer Content-Type manualmente, axios lo hace automáticamente con el boundary correcto
+    await axiosInstance.post(`/bovinos/${id}/fotos`, formData);
   },
 
   // Historial sanitario

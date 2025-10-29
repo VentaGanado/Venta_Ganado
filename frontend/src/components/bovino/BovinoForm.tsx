@@ -61,11 +61,11 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
-      <div className="border-b-2 border-green-200 pb-4">
-        <h2 className="text-3xl font-extrabold text-gray-800 flex items-center gap-3">
-          {bovino ? '✏️ Editar Bovino' : '➕ Registrar Nuevo Bovino'}
+      <div className="border-b border-gray-100 pb-4">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          {bovino ? 'Editar bovino' : 'Registrar nuevo bovino'}
         </h2>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600 mt-1 text-sm">
           {bovino ? 'Actualiza la información del bovino' : 'Completa los datos del nuevo bovino'}
         </p>
       </div>
