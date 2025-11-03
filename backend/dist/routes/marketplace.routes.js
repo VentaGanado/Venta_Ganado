@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const marketplace_controller_1 = require("../controllers/marketplace.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const router = (0, express_1.Router)();
+router.get("/mis-publicaciones", auth_middleware_1.authMiddleware, marketplace_controller_1.MarketplaceController.obtenerMisPublicaciones);
+router.post("/", auth_middleware_1.authMiddleware, marketplace_controller_1.MarketplaceController.crearPublicacion);
+router.put("/:id", auth_middleware_1.authMiddleware, marketplace_controller_1.MarketplaceController.actualizarPublicacion);
+router.patch("/:id/toggle", auth_middleware_1.authMiddleware, marketplace_controller_1.MarketplaceController.togglePublicacion);
+router.delete("/:id", auth_middleware_1.authMiddleware, marketplace_controller_1.MarketplaceController.eliminarPublicacion);
+router.get("/", marketplace_controller_1.MarketplaceController.obtenerPublicaciones);
+router.get("/:id", marketplace_controller_1.MarketplaceController.obtenerPublicacion);
+exports.default = router;
