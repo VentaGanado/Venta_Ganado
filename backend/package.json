@@ -9,7 +9,6 @@
     "test": "jest --watchAll",
     "lint": "eslint . --ext .ts",
     "migrate": "node scripts/migrate.js",
-    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
