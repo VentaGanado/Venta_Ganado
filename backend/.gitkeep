@@ -1,0 +1,4 @@
+# En backend/
+mkdir -p uploads logs
+echo "" > uploads/.gitkeep
+echo "" > logs/.gitkeep
