@@ -33,96 +33,102 @@ export const PublicacionCard: React.FC<PublicacionCardProps> = ({ publicacion })
   return (
     <Link
       to={`/marketplace/${publicacion.id}`}
-      className="block bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 transform hover:-translate-y-2 group"
+      className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-200 flex flex-col h-full"
     >
       {/* Imagen */}
-      <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+      <div className="relative h-48 bg-gray-100 overflow-hidden">
         <img
           src={getFotoUrl()}
           alt={publicacion.titulo}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        {!publicacion.activo && (
-          <div className="absolute top-3 right-3 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
-            ❌ Inactiva
-          </div>
-        )}
-        {publicacion.activo && (
-          <div className="absolute top-3 right-3 bg-green-600 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
-            ✅ Disponible
-          </div>
-        )}
+        
+        {/* Badge de estado */}
+        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-md ${
+          publicacion.activo 
+            ? 'bg-green-500 text-white' 
+            : 'bg-gray-500 text-white'
+        }`}>
+          {publicacion.activo ? 'Disponible' : 'No disponible'}
+        </div>
       </div>
 
       {/* Contenido */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">
         {/* Título y precio */}
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
+          <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors min-h-[3rem]">
             {publicacion.titulo}
           </h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-green-700">
-              {formatPrecio(publicacion.precio)}
-            </span>
-            <span className="text-sm text-gray-500">COP</span>
-          </div>
+          <p className="text-2xl font-bold text-green-600">
+            {formatPrecio(publicacion.precio)}
+          </p>
         </div>
 
         {/* Información del bovino */}
         {bovino && (
-          <div className="space-y-3 mb-4">
-            <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg">
-              <span className="text-xl">🐮</span>
-              <span className="text-sm text-gray-600">Raza:</span>
-              <span className="font-bold text-blue-900">{bovino.raza}</span>
+          <div className="space-y-3 mb-4 flex-1">
+            {/* Raza */}
+            <div className="flex items-center text-sm">
+              <span className="text-gray-500 font-medium">Raza:</span>
+              <span className="ml-2 font-semibold text-gray-900">{bovino.raza}</span>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-purple-50 px-3 py-2 rounded-lg">
-                <span className="text-xs text-purple-600 block">Sexo</span>
-                <span className="font-bold text-purple-900">{getSexoLabel(bovino.sexo)}</span>
-              </div>
-              <div className="bg-orange-50 px-3 py-2 rounded-lg">
-                <span className="text-xs text-orange-600 block">Edad</span>
-                <span className="font-bold text-orange-900">{bovino.edad} años</span>
-              </div>
-            </div>
-            <div className="bg-green-50 px-3 py-2 rounded-lg flex items-center gap-2">
-              <span className="text-xl">⚖️</span>
-              <span className="text-sm text-gray-600">Peso:</span>
-              <span className="font-bold text-green-900">{bovino.peso} kg</span>
-            </div>
-          </div>
-        )}
 
-        {/* Ubicación */}
-        {bovino?.ubicacion_municipio && (
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-4 bg-gray-50 px-3 py-2 rounded-lg">
-            <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-            </svg>
-            <span className="font-semibold">{bovino.ubicacion_municipio}, {bovino.ubicacion_departamento || 'Boyacá'}</span>
-          </div>
-        )}
-
-        {/* Vendedor */}
-        {vendedor && (
-          <div className="pt-4 border-t-2 border-gray-100 flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
-              {vendedor.nombre[0]}
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold text-gray-800">
-                {vendedor.nombre} {vendedor.apellidos}
-              </p>
-              {vendedor.municipio && (
-                <p className="text-xs text-gray-500 flex items-center gap-1">
-                  <span>📍</span> {vendedor.municipio}
+            {/* Grid de detalles */}
+            <div className="grid grid-cols-3 gap-3 pt-2">
+              <div className="text-center bg-gray-50 py-2 rounded-lg">
+                <p className="text-xs text-gray-500 mb-1">Sexo</p>
+                <p className="font-semibold text-gray-900 text-sm">
+                  {getSexoLabel(bovino.sexo)}
                 </p>
-              )}
+              </div>
+              <div className="text-center bg-gray-50 py-2 rounded-lg">
+                <p className="text-xs text-gray-500 mb-1">Edad</p>
+                <p className="font-semibold text-gray-900 text-sm">
+                  {bovino.edad} años
+                </p>
+              </div>
+              <div className="text-center bg-gray-50 py-2 rounded-lg">
+                <p className="text-xs text-gray-500 mb-1">Peso</p>
+                <p className="font-semibold text-gray-900 text-sm">
+                  {bovino.peso} kg
+                </p>
+              </div>
             </div>
           </div>
         )}
+
+        {/* Footer */}
+        <div className="pt-4 border-t border-gray-100 mt-auto space-y-3">
+          {/* Ubicación */}
+          {bovino?.ubicacion_municipio && (
+            <div className="flex items-center text-sm text-gray-600">
+              <svg className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span className="truncate">{bovino.ubicacion_municipio}, {bovino.ubicacion_departamento || 'Boyacá'}</span>
+            </div>
+          )}
+
+          {/* Vendedor */}
+          {vendedor && (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-semibold text-sm flex-shrink-0">
+                {vendedor.nombre[0]}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {vendedor.nombre} {vendedor.apellidos}
+                </p>
+                {vendedor.municipio && (
+                  <p className="text-xs text-gray-500 truncate">
+                    {vendedor.municipio}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </Link>
   );

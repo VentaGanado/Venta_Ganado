@@ -62,10 +62,13 @@ export const DetallePublicacion: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
         <Navbar />
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-600 mx-auto mb-4"></div>
+            <p className="text-lg font-medium text-gray-700">Cargando publicación...</p>
+          </div>
         </div>
       </div>
     );
@@ -73,16 +76,18 @@ export const DetallePublicacion: React.FC = () => {
 
   if (error || !publicacion) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
         <Navbar />
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">❌</div>
+          <div className="text-center py-16 bg-white rounded-lg shadow-md">
+            <svg className="w-24 h-24 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             <h3 className="text-xl font-bold text-gray-800 mb-2">Publicación no encontrada</h3>
             <p className="text-gray-600 mb-6">{error || 'La publicación que buscas no existe'}</p>
             <button
               onClick={() => navigate('/marketplace')}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
             >
               Volver al Marketplace
             </button>
@@ -95,21 +100,25 @@ export const DetallePublicacion: React.FC = () => {
   const { bovino, vendedor } = publicacion;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-6 py-8">
         {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 text-sm text-gray-600">
-          <button onClick={() => navigate('/')} className="hover:text-green-600">
+          <button onClick={() => navigate('/')} className="hover:text-green-600 transition-colors">
             Inicio
           </button>
-          <span>/</span>
-          <button onClick={() => navigate('/marketplace')} className="hover:text-green-600">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+          </svg>
+          <button onClick={() => navigate('/marketplace')} className="hover:text-green-600 transition-colors">
             Marketplace
           </button>
-          <span>/</span>
-          <span className="text-gray-800">{publicacion.titulo}</span>
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+          </svg>
+          <span className="text-gray-800 font-medium">{publicacion.titulo}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -126,21 +135,41 @@ export const DetallePublicacion: React.FC = () => {
 
               {bovino && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600 mb-1">Raza</p>
-                    <p className="text-lg font-bold text-gray-800">{bovino.raza}</p>
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                      Raza
+                    </p>
+                    <p className="text-base font-bold text-gray-800">{bovino.raza}</p>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600 mb-1">Sexo</p>
-                    <p className="text-lg font-bold text-gray-800">{getSexoLabel(bovino.sexo)}</p>
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      Sexo
+                    </p>
+                    <p className="text-base font-bold text-gray-800">{getSexoLabel(bovino.sexo)}</p>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600 mb-1">Edad</p>
-                    <p className="text-lg font-bold text-gray-800">{bovino.edad} años</p>
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Edad
+                    </p>
+                    <p className="text-base font-bold text-gray-800">{bovino.edad} años</p>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600 mb-1">Peso</p>
-                    <p className="text-lg font-bold text-gray-800">{bovino.peso} kg</p>
+                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                      </svg>
+                      Peso
+                    </p>
+                    <p className="text-base font-bold text-gray-800">{bovino.peso} kg</p>
                   </div>
                 </div>
               )}
@@ -186,8 +215,13 @@ export const DetallePublicacion: React.FC = () => {
 
               {bovino?.estado_sanitario && (
                 <div className="border-t pt-6 mt-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-3">Estado sanitario</h2>
-                  <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+                  <h2 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Estado sanitario
+                  </h2>
+                  <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                     {bovino.estado_sanitario}
                   </div>
                 </div>
@@ -229,10 +263,15 @@ export const DetallePublicacion: React.FC = () => {
             {/* Card del vendedor */}
             {vendedor && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-4">Vendedor</h3>
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Vendedor
+                </h3>
 
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-2xl flex-shrink-0">
+                  <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-sm">
                     {vendedor.nombre[0]}
                   </div>
                   <div className="flex-1">
@@ -240,7 +279,10 @@ export const DetallePublicacion: React.FC = () => {
                       {vendedor.nombre} {vendedor.apellidos}
                     </p>
                     {vendedor.municipio && (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
+                        <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                        </svg>
                         {vendedor.municipio}, {vendedor.departamento || 'Boyacá'}
                       </p>
                     )}
@@ -279,17 +321,32 @@ export const DetallePublicacion: React.FC = () => {
 
             {/* Información de la publicación */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Detalles de la publicación</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Publicado el:</span>
-                  <span className="text-gray-800 font-medium">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Detalles de la publicación
+              </h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Publicado el:
+                  </span>
+                  <span className="text-gray-800 font-semibold">
                     {formatFecha(publicacion.fecha_creacion)}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">ID de publicación:</span>
-                  <span className="text-gray-800 font-medium">#{publicacion.id}</span>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                    </svg>
+                    ID de publicación:
+                  </span>
+                  <span className="text-gray-800 font-semibold">#{publicacion.id}</span>
                 </div>
               </div>
             </div>
