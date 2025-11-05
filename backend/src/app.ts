@@ -32,6 +32,12 @@ app.use(compression());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+// Configurar charset UTF-8 para todas las respuestas
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
+
 // Servir archivos estáticos (uploads) y forzar cabeceras para permitir carga desde otro origen
 app.use(
   "/uploads",

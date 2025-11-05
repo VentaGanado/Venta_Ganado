@@ -43,10 +43,12 @@ export const MisBovinos: React.FC = () => {
     if (publicacion) {
       setPublicandoBovino(null);
       const mensaje = document.createElement('div');
-      mensaje.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in';
+      mensaje.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50';
       mensaje.innerHTML = `
         <div class="flex items-center gap-2">
-          <span class="text-2xl">✅</span>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+          </svg>
           <div>
             <p class="font-bold">¡Publicación creada!</p>
             <p class="text-sm">Tu bovino ya está en el marketplace</p>
@@ -61,16 +63,18 @@ export const MisBovinos: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Mis Bovinos</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Mis Bovinos</h1>
             <p className="text-sm text-gray-600">Gestiona tu inventario ganadero</p>
             {bovinos.length > 0 && (
-              <p className="text-sm text-gray-500 mt-1">Total: <span className="font-bold text-green-600">{bovinos.length}</span></p>
+              <p className="text-sm text-gray-500 mt-1">
+                Total: <span className="font-semibold text-green-600">{bovinos.length}</span> {bovinos.length === 1 ? 'bovino' : 'bovinos'}
+              </p>
             )}
           </div>
           
@@ -78,16 +82,16 @@ export const MisBovinos: React.FC = () => {
             <Button 
               onClick={() => setShowForm(true)} 
               variant="primary" 
-              className="px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all"
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
             >
-              ➕ Registrar Bovino
+              + Registrar Bovino
             </Button>
           )}
         </div>
 
         {/* Mensaje de error del marketplace */}
         {marketplaceError && (
-          <div className="mb-6 p-5 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl flex justify-between items-start shadow-lg">
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg flex justify-between items-start">
             <div className="flex items-start gap-3">
               <svg className="w-6 h-6 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -98,7 +102,7 @@ export const MisBovinos: React.FC = () => {
               onClick={() => setError(null)} 
               className="text-red-700 hover:text-red-900 font-bold text-xl"
             >
-              ✕
+              &times;
             </button>
           </div>
         )}
@@ -119,32 +123,31 @@ export const MisBovinos: React.FC = () => {
         {loading ? (
           <div className="flex justify-center items-center py-32">
             <div className="text-center">
-              <div className="animate-bounce text-8xl mb-6">🐄</div>
-              <div className="flex items-center gap-2 justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-green-600"></div>
-                <p className="text-xl font-semibold text-gray-700">Cargando bovinos...</p>
-              </div>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent mb-4 mx-auto"></div>
+              <p className="text-lg font-medium text-gray-600">Cargando bovinos...</p>
             </div>
           </div>
         ) : bovinos.length === 0 ? (
-          <div className="text-center py-24 bg-white rounded-3xl shadow-2xl border-2 border-dashed border-gray-300">
-            <div className="text-9xl mb-6 opacity-50">🐄</div>
-            <h3 className="text-3xl font-extrabold text-gray-800 mb-3">
+          <div className="text-center py-20 bg-white rounded-lg shadow border border-gray-200">
+            <svg className="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
               No tienes bovinos registrados
             </h3>
-            <p className="text-gray-600 mb-8 text-lg">
-              Comienza registrando tu primer bovino para gestionar tu inventario
+            <p className="text-gray-600 mb-6 max-w-md mx-auto">
+              Comienza registrando tu primer bovino para gestionar tu inventario ganadero
             </p>
             <Button 
               onClick={() => setShowForm(true)} 
               variant="primary"
-              className="px-10 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all"
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
             >
-              ➕ Registrar Primer Bovino
+              + Registrar Primer Bovino
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bovinos.map((bovino) => (
               <BovinoCard
                 key={bovino.id}

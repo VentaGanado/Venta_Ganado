@@ -60,9 +60,9 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
-      <div className="border-b border-gray-100 pb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow border border-gray-200">
+      <div className="border-b border-gray-200 pb-4">
+        <h2 className="text-xl font-semibold text-gray-900">
           {bovino ? 'Editar bovino' : 'Registrar nuevo bovino'}
         </h2>
         <p className="text-gray-600 mt-1 text-sm">
@@ -80,13 +80,13 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
         />
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Raza *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Raza *</label>
           <select
             name="raza"
             value={formData.raza}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all bg-white hover:border-green-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
           >
             <option value="">Selecciona la raza</option>
             {RAZAS.map(raza => (
@@ -96,16 +96,16 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Sexo *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Sexo *</label>
           <select
             name="sexo"
             value={formData.sexo}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all bg-white hover:border-green-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
           >
-            <option value="M">♂️ Macho</option>
-            <option value="F">♀️ Hembra</option>
+            <option value="M">Macho</option>
+            <option value="F">Hembra</option>
           </select>
         </div>
 
@@ -143,13 +143,13 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
         />
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Municipio *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Municipio *</label>
           <select
             name="ubicacion_municipio"
             value={formData.ubicacion_municipio}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all bg-white hover:border-green-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
           >
             <option value="">Selecciona el municipio</option>
             {MUNICIPIOS.map(mun => (
@@ -159,36 +159,36 @@ export const BovinoForm: React.FC<BovinoFormProps> = ({ bovino, onSubmit, onCanc
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-200">
-        <label className="block text-sm font-semibold text-blue-800 mb-2 flex items-center gap-2">
-          <span className="text-xl">📝</span> Descripción
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Descripción
         </label>
         <textarea
           name="descripcion"
           value={formData.descripcion}
           onChange={handleChange}
           rows={4}
-          className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
           placeholder="Características adicionales del bovino (salud, comportamiento, historial, etc.)..."
         />
       </div>
 
-      <div className="flex gap-4 pt-4">
+      <div className="flex gap-3 pt-4">
         <Button 
           type="submit" 
           variant="primary" 
           loading={loading} 
-          className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition-all"
         >
-          {bovino ? '💾 Actualizar Bovino' : '➕ Registrar Bovino'}
+          {bovino ? 'Actualizar Bovino' : 'Registrar Bovino'}
         </Button>
         <Button 
           type="button" 
           variant="outline" 
           onClick={onCancel} 
-          className="flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all"
+          className="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-2.5 rounded-lg transition-all"
         >
-          ❌ Cancelar
+          Cancelar
         </Button>
       </div>
     </form>
